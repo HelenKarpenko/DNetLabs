@@ -8,8 +8,8 @@ namespace PolynomialLib
 {
     public class Polynomial : ICloneable
     {
-        public Dictionary<int, int> Coefficients { get; set; }
-        public int Degree
+        public Dictionary<uint, int> Coefficients { get; set; }
+        public uint Degree
         {
             get
             {
@@ -17,26 +17,41 @@ namespace PolynomialLib
             }
         }
 
-        //public Polynomial(uint degree) : this(new int[degree])
-        //{
-        //}
+        public Polynomial(uint degree) : this(new int[degree + 1])
+        {
+        }
 
-        /// <summary>
-        /// Create polynomial
-        /// c[0]+c[1]x+c[2]x^2+...+c[n]x^n
-        /// </summary>
-        /// <param name="coef">Array of Coefficients: c[0]+c[1]x+c[2]x^2+...+c[n]x^n</param>
         public Polynomial(int[] coefficients)
         {
-            Coefficients = new Dictionary<int, int>();
+            if (coefficients == null)
+            {
+                throw new ArgumentNullException("Сoefficient array is null.");
+            }
+
+            if (coefficients.Length == 0)
+            {
+                coefficients = new int[] { 0 };
+            }
+
+            Coefficients = new Dictionary<uint, int>();
             for (int i = 0; i < coefficients.Length; i++)
             {
-                Coefficients.Add(i, coefficients[i]);
+                Coefficients.Add((uint)i, coefficients[i]);
             }
         }
 
-        //var dictionary = sequence.ToDictionary(item => item.Key,
-        //                               item => item.Value)
+        public Polynomial(Dictionary<uint, int> coefficients)
+        {
+            if (coefficients == null)
+                throw new ArgumentNullException("Сoefficient dictionary is null.");
+
+            if (coefficients.Count == 0)
+            {
+                coefficients.Add(0, 0);
+            }
+
+            Coefficients = coefficients;
+        }
 
         //public Polynomial(Tuple<int, uint>[] coefDictionary)
         //{
@@ -199,7 +214,7 @@ namespace PolynomialLib
         {
             StringBuilder str = new StringBuilder();
 
-            for (int i = 0; i <= Degree; i++)
+            for (uint i = 0; i <= Degree; i++)
             {
                 if (!Coefficients.ContainsKey(i))
                     break;
@@ -211,7 +226,7 @@ namespace PolynomialLib
                         str.AppendFormat("{0}", Coefficients[i]);
                     }
 
-                    int power = Degree - i;
+                    uint power = Degree - i;
                     if (power != 0)
                     {
                         str.Append("x");
@@ -223,12 +238,12 @@ namespace PolynomialLib
                         str.AppendFormat(" + ");
                 }
             }
+
             str.Append(" = 0 ");
 
             return str.ToString();
         }
            
-
         public object Clone()
         {
             int[] copyCoef = new int[Degree];
