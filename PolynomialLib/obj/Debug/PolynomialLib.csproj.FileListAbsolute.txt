@@ -1,0 +1,6 @@
+C:\Users\lenaa\source\repos\Lab1\PolynomialLib\obj\Debug\PolynomialLib.csprojAssemblyReference.cache
+C:\Users\lenaa\source\repos\Lab1\PolynomialLib\obj\Debug\PolynomialLib.csproj.CoreCompileInputs.cache
+C:\Users\lenaa\source\repos\Lab1\PolynomialLib\bin\Debug\PolynomialLib.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialLib\bin\Debug\PolynomialLib.pdb
+C:\Users\lenaa\source\repos\Lab1\PolynomialLib\obj\Debug\PolynomialLib.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialLib\obj\Debug\PolynomialLib.pdb

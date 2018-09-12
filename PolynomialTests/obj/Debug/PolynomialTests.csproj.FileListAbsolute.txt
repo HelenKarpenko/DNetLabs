@@ -1,0 +1,16 @@
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\PolynomialTests.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\PolynomialTests.pdb
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\PolynomialLib.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\PolynomialLib.pdb
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\obj\Debug\PolynomialTests.csprojAssemblyReference.cache
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\obj\Debug\PolynomialTests.csproj.CoreCompileInputs.cache
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\obj\Debug\PolynomialTests.csproj.CopyComplete
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\obj\Debug\PolynomialTests.dll
+C:\Users\lenaa\source\repos\Lab1\PolynomialTests\obj\Debug\PolynomialTests.pdb
