@@ -8,12 +8,14 @@ namespace PolynomialLib
 {
     public class Polynomial : ICloneable
     {
-        public int[] Coefficients { get; set; }
+        //public int[] Coefficients { get; set; }
+
+        public Dictionary<uint, int> Coefficients { get; set; }
         public uint Degree
         {
             get
             {
-                return (uint)Coefficients.Length;
+                return Coefficients.Keys.Max();
             }
         }
 
