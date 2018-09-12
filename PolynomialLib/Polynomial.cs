@@ -53,14 +53,30 @@ namespace PolynomialLib
             Coefficients = coefficients;
         }
 
-        //public Polynomial(Tuple<int, uint>[] coefDictionary)
-        //{
-        //    Coefficients = new int[coefDictionary.GetLength(0)];
-        //    for (int i = 0; i < coefDictionary.GetLength(0); i++)
-        //    {
-        //        Coefficients[coefDictionary[i].Item2] = coefDictionary[i].Item1;
-        //    }
-        //}
+        public static Polynomial operator +(Polynomial left, Polynomial right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("Left polynomial is null.");
+
+            if (right == null)
+                throw new ArgumentNullException("Right polynomial is null.");
+
+            Polynomial result = (Polynomial)left.Clone();
+
+            foreach (uint key in right.Coefficients.Keys)
+            {
+                if (!left.Coefficients.ContainsKey(key))
+                {
+                    result.Coefficients.Add(key, right.Coefficients[key]);
+                }
+                else
+                {
+                    result.Coefficients[key] += right.Coefficients[key]; 
+                }
+            }
+
+            return result;
+        }
 
         //public static Polynomial operator +(Polynomial left, Polynomial right)
         //{
@@ -74,7 +90,7 @@ namespace PolynomialLib
 
         //    Polynomial result = new Polynomial(coefCount);
 
-        //    for (int i = 0; i < coefCount; i++)
+        //    for (uint i = 0; i < coefCount; i++)
         //    {
         //        int itemFromLeft = 0;
         //        int itemFromRight = 0;
@@ -153,62 +169,32 @@ namespace PolynomialLib
 
         //    return this * polynomialForIncrease;
         //}
+        
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (!(obj is Polynomial))
-        //        return false;
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Polynomial))
+                return false;
 
-        //    Polynomial polynomial = obj as Polynomial;
+            Polynomial polynomial = obj as Polynomial;
 
-        //    if (Degree != polynomial.Degree)
-        //        return false;
+            if (Degree != polynomial.Degree)
+                return false;
 
-        //    return Coefficients.SequenceEqual(polynomial.Coefficients);
-        //}
+            return Coefficients.SequenceEqual(polynomial.Coefficients);
+        }
 
-        //public override int GetHashCode()
-        //{
-        //    int hash = 27;
+        public override int GetHashCode()
+        {
+            int hash = 27;
 
-        //    for (int i = 0; i < Degree; i++)
-        //    {
-        //        hash = hash * 31 + Coefficients[i];
-        //    }
+            foreach (uint key in Coefficients.Keys)
+            {
+                hash = hash * 31 + Coefficients[key];
+            }
 
-        //    return hash;
-        //}
-
-        //public override string ToString()
-        //{
-        //    StringBuilder str = new StringBuilder();
-
-        //    for (int i = 0; i < Degree; i++)
-        //    {
-        //        if (Coefficients[i] != 0)
-        //        {
-        //            if (Coefficients[i] != 1)
-        //            {
-        //                str.AppendFormat("{0}", Coefficients[i]);
-        //            }
-
-        //            int power = (int)Degree - i - 1;
-        //            if (power != 0)
-        //            {
-        //                str.Append("x");
-        //                if (power != 1)
-        //                    str.AppendFormat("^{0}", power);
-        //            }
-
-        //            if (i != Coefficients.Length - 1)
-        //                str.AppendFormat(" + ");
-        //        }
-        //    }
-        //    str.Append(" = 0\n");
-
-        //    return str.ToString();
-        //}
-
+            return hash;
+        }
 
         public override string ToString()
         {
@@ -246,9 +232,8 @@ namespace PolynomialLib
            
         public object Clone()
         {
-            int[] copyCoef = new int[Degree];
-            //Coefficients.CopyTo(copyCoef, 0);
-            return new Polynomial(copyCoef);
+            return new Polynomial(Coefficients.ToDictionary(entry => entry.Key,
+                                               entry => entry.Value));
         }
     }
 }
