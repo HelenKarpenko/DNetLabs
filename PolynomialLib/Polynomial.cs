@@ -44,12 +44,8 @@ namespace PolynomialLib
         {
             if (coefficients == null)
                 throw new ArgumentNullException("Сoefficient dictionary is null.");
-
-            if (coefficients.Count == 0)
-            {
-                coefficients.Add(0, 0);
-            }
-
+          
+            NormalizeDictionary(coefficients);
             Coefficients = coefficients;
         }
 
@@ -78,86 +74,59 @@ namespace PolynomialLib
             return result;
         }
 
-        //public static Polynomial operator +(Polynomial left, Polynomial right)
-        //{
-        //    if (left == null)
-        //        throw new ArgumentNullException("Left polynomial is null.");
+        public static Polynomial operator -(Polynomial left, Polynomial right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("Left polynomial is null.");
 
-        //    if (right == null)
-        //        throw new ArgumentNullException("Right polynomial is null.");
+            if (right == null)
+                throw new ArgumentNullException("Right polynomial is null.");
 
-        //    uint coefCount = Math.Max(left.Degree, right.Degree);
+            Polynomial result = (Polynomial)left.Clone();
 
-        //    Polynomial result = new Polynomial(coefCount);
+            foreach (uint key in right.Coefficients.Keys)
+            {
+                if (!left.Coefficients.ContainsKey(key))
+                {
+                    result.Coefficients.Add(key, right.Coefficients[key] * (-1));
+                }
+                else
+                {
+                    result.Coefficients[key] -= right.Coefficients[key];
+                }
+            }
 
-        //    for (uint i = 0; i < coefCount; i++)
-        //    {
-        //        int itemFromLeft = 0;
-        //        int itemFromRight = 0;
+            return result;
+        }
 
-        //        if (i < left.Degree)
-        //            itemFromLeft = left.Coefficients[i];
+        public static Polynomial operator *(Polynomial left, Polynomial right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("Left polynomial is null.");
 
-        //        if (i < right.Degree)
-        //            itemFromRight = right.Coefficients[i];
+            if (right == null)
+                throw new ArgumentNullException("Right polynomial is null.");
 
-        //        result.Coefficients[i] = itemFromLeft + itemFromRight;
-        //    }
+            Dictionary<uint, int> result = new Dictionary<uint, int>();
 
-        //    return result;
-        //}
-
-        //public static Polynomial operator -(Polynomial left, Polynomial right)
-        //{
-        //    if (left == null)
-        //        throw new ArgumentNullException("Left polynomial is null.");
-
-        //    if (right == null)
-        //        throw new ArgumentNullException("Right polynomial is null.");
-
-        //    uint coefCount = Math.Max(left.Degree, right.Degree);
-
-        //    Polynomial result = new Polynomial(coefCount);
-
-        //    for (int i = 0; i < coefCount; i++)
-        //    {
-        //        int itemFromLeft = 0;
-        //        int itemFromRight = 0;
-
-        //        if (i < left.Degree)
-        //            itemFromLeft = left.Coefficients[i];
-
-        //        if (i < right.Degree)
-        //            itemFromRight = right.Coefficients[i];
-
-        //        result.Coefficients[i] = itemFromLeft - itemFromRight;
-        //    }
-
-        //    return result;
-        //}
-
-        //public static Polynomial operator *(Polynomial left, Polynomial right)
-        //{
-        //    if (left == null)
-        //        throw new ArgumentNullException("Left polynomial is null.");
-
-        //    if (right == null)
-        //        throw new ArgumentNullException("Right polynomial is null.");
-
-        //    uint coefCount = left.Degree + right.Degree - 1;
-
-        //    int[] coef = new int[coefCount];
-
-        //    for (int i = 0; i < left.Degree; i++)
-        //    {
-        //        for (int j = 0; j < right.Degree; j++)
-        //        {
-        //            coef[i + j] += left.Coefficients[i] * right.Coefficients[j];
-        //        }
-        //    }
-
-        //    return new Polynomial(coef);
-        //}
+            foreach (uint leftKey in left.Coefficients.Keys)
+            {
+                foreach (uint rightKey in right.Coefficients.Keys)
+                {
+                    uint degree = leftKey + rightKey;
+                    if (!result.ContainsKey(degree))
+                    {
+                        result.Add(degree, left.Coefficients[leftKey] * right.Coefficients[rightKey]);
+                    }
+                    else
+                    {
+                        result[degree] += left.Coefficients[leftKey] * right.Coefficients[rightKey];
+                    }
+                }
+            }
+            
+            return new Polynomial(result);
+        }
 
         //public Polynomial IncreaseTheDegree(uint newDegree)
         //{
@@ -169,7 +138,7 @@ namespace PolynomialLib
 
         //    return this * polynomialForIncrease;
         //}
-        
+
 
         public override bool Equals(object obj)
         {
@@ -234,6 +203,19 @@ namespace PolynomialLib
         {
             return new Polynomial(Coefficients.ToDictionary(entry => entry.Key,
                                                entry => entry.Value));
+        }
+
+        private static void NormalizeDictionary(Dictionary<uint, int> dictionary)
+        {
+            foreach (var item in dictionary.Where(kvp => kvp.Value == 0).ToList())
+            {
+                dictionary.Remove(item.Key);
+            }
+
+            if (dictionary.Count == 0)
+            {
+                dictionary.Add(0, 0);
+            }
         }
     }
 }
