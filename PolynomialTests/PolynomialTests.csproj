@@ -54,6 +54,7 @@
     <Compile Include="SumTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MultiplicationTests.cs" />
+    <Compile Include="ToStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

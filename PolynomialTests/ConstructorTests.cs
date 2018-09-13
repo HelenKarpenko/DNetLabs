@@ -70,33 +70,33 @@ namespace PolynomialTests
 
         #region Constructor with degree
 
-        [TestMethod]
-        public void Constructor_WithDegree()
-        {
-            uint degree = 3;
+        //[TestMethod]
+        //public void Constructor_WithDegree()
+        //{
+        //    uint degree = 3;
 
-            Polynomial result = new Polynomial(degree);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Degree, degree);
-            for (uint i = 0; i <= degree; i++)
-            {
-                Assert.AreEqual(result.Coefficients[i], 0);
-            }
-        }
+        //    Polynomial result = new Polynomial(degree);
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(result.Degree, degree);
+        //    for (uint i = 0; i <= degree; i++)
+        //    {
+        //        Assert.AreEqual(result.Coefficients[i], 0);
+        //    }
+        //}
 
-        [TestMethod]
-        public void Constructor_WithZeroDegree()
-        {
-            uint degree = 0;
+        //[TestMethod]
+        //public void Constructor_WithZeroDegree()
+        //{
+        //    uint degree = 0;
 
-            Polynomial result = new Polynomial(degree);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Degree, degree);
-            for (uint i = 0; i <= degree; i++)
-            {
-                Assert.AreEqual(result.Coefficients[i], 0);
-            }
-        }
+        //    Polynomial result = new Polynomial(degree);
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(result.Degree, degree);
+        //    for (uint i = 0; i <= degree; i++)
+        //    {
+        //        Assert.AreEqual(result.Coefficients[i], 0);
+        //    }
+        //}
 
         #endregion
 

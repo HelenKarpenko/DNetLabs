@@ -17,10 +17,6 @@ namespace PolynomialLib
             }
         }
 
-        public Polynomial(uint degree) : this(new int[degree + 1])
-        {
-        }
-
         public Polynomial(int[] coefficients)
         {
             if (coefficients == null)
@@ -38,6 +34,8 @@ namespace PolynomialLib
             {
                 Coefficients.Add((uint)i, coefficients[i]);
             }
+
+            NormalizeDictionary(Coefficients);
         }
 
         public Polynomial(Dictionary<uint, int> coefficients)
@@ -46,6 +44,7 @@ namespace PolynomialLib
                 throw new ArgumentNullException("Сoefficient dictionary is null.");
           
             NormalizeDictionary(coefficients);
+
             Coefficients = coefficients;
         }
 
@@ -167,34 +166,45 @@ namespace PolynomialLib
 
         public override string ToString()
         {
-            StringBuilder str = new StringBuilder();
-
-            for (uint i = 0; i <= Degree; i++)
+            if (Degree == 0 && Coefficients[0] == 0)
             {
-                if (!Coefficients.ContainsKey(i))
-                    break;
-
-                if (Coefficients[i] != 0)
-                {
-                    if (Coefficients[i] != 1)
-                    {
-                        str.AppendFormat("{0}", Coefficients[i]);
-                    }
-
-                    uint power = Degree - i;
-                    if (power != 0)
-                    {
-                        str.Append("x");
-                        if (power != 1)
-                            str.AppendFormat("^{0}", power);
-                    }
-
-                    if (i != Degree)
-                        str.AppendFormat(" + ");
-                }
+                return "0 = 0";
             }
 
-            str.Append(" = 0 ");
+            StringBuilder str = new StringBuilder();
+
+            for (int i = (int)Degree; i >= 0; i--)
+            {
+                if (Coefficients.ContainsKey((uint)i))
+                {
+                    if (i != Degree)
+                    {
+                        str.Append(" + ");
+                    }
+
+                    if (Coefficients[(uint)i] != 0)
+                    {
+                        if (Coefficients[(uint)i] != 1)
+                        {
+                            str.AppendFormat("{0}", Coefficients[(uint)i]);
+                        }
+                        else
+                        {
+                            if(i == 0)
+                                str.AppendFormat("{0}", Coefficients[(uint)i]);
+                        }
+
+                        if (i != 0)
+                        {
+                            str.Append("x");
+                            if (i != 1)
+                                str.AppendFormat("^{0}", i);
+                        }
+                    }
+                }
+            }
+            
+            str.Append(" = 0");
 
             return str.ToString();
         }
