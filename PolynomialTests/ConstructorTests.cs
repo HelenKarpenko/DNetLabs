@@ -9,7 +9,6 @@ namespace PolynomialTests
     [TestClass]
     public class ConstructorTests
     {
-
         #region Constructor with array
 
         [TestMethod]
@@ -43,60 +42,46 @@ namespace PolynomialTests
             uint expectedDegree = 0 ;
 
             Polynomial result = new Polynomial(array);
+
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
-            for (uint i = 0; i < array.Length; i++)
-            {
-                Assert.AreEqual(result.Coefficients[i], array[i]);
-            }
+            Assert.AreEqual(result.Coefficients[0], 0);
         }
 
         [TestMethod]
-        public void Constructor_WithZeroArray()
+        public void Constructor_WithZeroArray_NormalizeDictionary()
         {
             int[] array = { 0, 0, 0, 0 };
-            uint expectedDegree = (uint)array.Length - 1;
+            uint expectedDegree = 0;
 
             Polynomial result = new Polynomial(array);
+
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
-            for (uint i = 0; i < array.Length; i++)
-            {
-                Assert.AreEqual(result.Coefficients[i], array[i]);
-            }
+            Assert.AreEqual(result.Coefficients[0], 0);
         }
 
-        #endregion
+        [TestMethod]
+        [ExpectedException(typeof(PolynomialException), "These coefficients do not correspond to the polynomial")]
+        public void Constructor_ArrayWithnIncorrectCoef()
+        {
+            int[] array = { 9 };
 
-        #region Constructor with degree
+            Polynomial result = new Polynomial(array);
+        }
 
-        //[TestMethod]
-        //public void Constructor_WithDegree()
-        //{
-        //    uint degree = 3;
+        [TestMethod]
+        public void Constructor_ArrayWithnCorrectCoef()
+        {
+            int[] array = { 0 };
+            uint expectedDegree = 0;
 
-        //    Polynomial result = new Polynomial(degree);
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(result.Degree, degree);
-        //    for (uint i = 0; i <= degree; i++)
-        //    {
-        //        Assert.AreEqual(result.Coefficients[i], 0);
-        //    }
-        //}
+            Polynomial result = new Polynomial(array);
 
-        //[TestMethod]
-        //public void Constructor_WithZeroDegree()
-        //{
-        //    uint degree = 0;
-
-        //    Polynomial result = new Polynomial(degree);
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(result.Degree, degree);
-        //    for (uint i = 0; i <= degree; i++)
-        //    {
-        //        Assert.AreEqual(result.Coefficients[i], 0);
-        //    }
-        //}
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Degree, expectedDegree);
+            Assert.AreEqual(result.Coefficients[0], 0);
+        }
 
         #endregion
 
@@ -145,31 +130,52 @@ namespace PolynomialTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
-
-            foreach (uint key in dictionary.Keys)
-            {
-                Assert.AreEqual(result.Coefficients[key], dictionary[key]);
-            }
+            Assert.AreEqual(result.Coefficients[0], 0);
         }
 
         [TestMethod]
-        public void Constructor_WithZeroDictionary()
+        [ExpectedException(typeof(PolynomialException), "These coefficients do not correspond to the polynomial")]
+        public void Constructor_WithIncorrectDictionary()
         {
             Dictionary<uint, int> dictionary = new Dictionary<uint, int>();
 
             dictionary.Add(0, 9);
 
-            uint expectedDegree = dictionary.Keys.Max();
+            Polynomial result = new Polynomial(dictionary);
+        }
+
+        [TestMethod]
+        public void Constructor_WithDictionaryZeroDegree()
+        {
+            Dictionary<uint, int> dictionary = new Dictionary<uint, int>();
+
+            dictionary.Add(0, 0);
+
+            uint expectedDegree = 0;
 
             Polynomial result = new Polynomial(dictionary);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
+            Assert.AreEqual(result.Coefficients[0], 0);
+        }
 
-            foreach (uint key in dictionary.Keys)
-            {
-                Assert.AreEqual(result.Coefficients[key], dictionary[key]);
-            }
+        [TestMethod]
+        public void Constructor_WithZeroDictionary_NormalizeDictionary()
+        {
+            Dictionary<uint, int> dictionary = new Dictionary<uint, int>();
+
+            dictionary.Add(0, 0);
+            dictionary.Add(1, 0);
+            dictionary.Add(2, 0);
+
+            uint expectedDegree = 0;
+
+            Polynomial result = new Polynomial(dictionary);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Degree, expectedDegree);
+            Assert.AreEqual(result.Coefficients[0], 0);
         }
 
         #endregion

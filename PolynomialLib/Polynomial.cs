@@ -20,9 +20,10 @@ namespace PolynomialLib
         public Polynomial(int[] coefficients)
         {
             if (coefficients == null)
-            {
                 throw new ArgumentNullException("Сoefficient array is null.");
-            }
+
+            if (IsIncorrectCoefArray(coefficients))
+                throw new PolynomialException("These coefficients do not correspond to the polynomial");
 
             if (coefficients.Length == 0)
             {
@@ -42,10 +43,30 @@ namespace PolynomialLib
         {
             if (coefficients == null)
                 throw new ArgumentNullException("Сoefficient dictionary is null.");
-          
-            NormalizeDictionary(coefficients);
+
+            if (coefficients.Count == 0)
+            {
+                coefficients.Add(0, 0);
+            }
+            else
+            {
+                NormalizeDictionary(coefficients);
+            }
+
+            if (IsIncorrectCoefDictionary(coefficients))
+                throw new PolynomialException("These coefficients do not correspond to the polynomial");
 
             Coefficients = coefficients;
+        }
+
+        public static bool IsIncorrectCoefDictionary(Dictionary<uint, int> polynomial)
+        {
+            return polynomial.Keys.Max() == 0 && polynomial[0] != 0;
+        }
+
+        public static bool IsIncorrectCoefArray(int[] polynomial)
+        {
+            return polynomial.Length == 1 && polynomial[0] != 0;
         }
 
         public static Polynomial operator +(Polynomial left, Polynomial right)
@@ -69,6 +90,8 @@ namespace PolynomialLib
                     result.Coefficients[key] += right.Coefficients[key]; 
                 }
             }
+
+            NormalizeDictionary(result.Coefficients);
 
             return result;
         }
@@ -94,6 +117,8 @@ namespace PolynomialLib
                     result.Coefficients[key] -= right.Coefficients[key];
                 }
             }
+
+            NormalizeDictionary(result.Coefficients);
 
             return result;
         }
@@ -123,7 +148,7 @@ namespace PolynomialLib
                     }
                 }
             }
-            
+
             return new Polynomial(result);
         }
 
@@ -188,10 +213,9 @@ namespace PolynomialLib
                         {
                             str.AppendFormat("{0}", Coefficients[(uint)i]);
                         }
-                        else
+                        else if (i == 0)
                         {
-                            if(i == 0)
-                                str.AppendFormat("{0}", Coefficients[(uint)i]);
+                            str.AppendFormat("{0}", Coefficients[(uint)i]);
                         }
 
                         if (i != 0)
