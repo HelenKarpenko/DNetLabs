@@ -79,7 +79,7 @@ namespace PolynomialTests
         [TestMethod]
         public void Subtraction_LeftDegreeIsZero()
         {
-            int[] coefForLeftPol = { };
+            int[] coefForLeftPol = { 0 };
             int[] coefForRightPol = { 1, 1, 1, 1, 1 };
             int[] coefForExpectedPol = { -1, -1, -1, -1, -1 };
 
@@ -95,7 +95,7 @@ namespace PolynomialTests
         public void Subtraction_RightDegreeIsZero()
         {
             int[] coefForLeftPol = { 1, 1, 1, 1, 1 };
-            int[] coefForRightPol = { };
+            int[] coefForRightPol = { 0 };
             int[] coefForExpectedPol = { 1, 1, 1, 1, 1 };
 
             Polynomial left = new Polynomial(coefForLeftPol);
@@ -109,9 +109,9 @@ namespace PolynomialTests
         [TestMethod]
         public void Subtraction_RightAndLeftDegreeIsZero()
         {
-            int[] coefForLeftPol = { };
-            int[] coefForRightPol = { };
-            int[] coefForExpectedPol = { };
+            int[] coefForLeftPol = { 0 };
+            int[] coefForRightPol = { 0 };
+            int[] coefForExpectedPol = { 0 };
 
             Polynomial left = new Polynomial(coefForLeftPol);
             Polynomial right = new Polynomial(coefForRightPol);

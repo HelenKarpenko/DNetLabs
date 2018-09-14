@@ -8,7 +8,7 @@ namespace MatrixTests
     public class EqualsTests
     {
         [TestMethod]
-        public void Equals_MatrixIsEqualsToItSelf_IsTrue()
+        public void Equals_MatrixIsEqualsToItSelf()
         {
             int[,] elementsForMatrix = new int[,]
             {
@@ -18,11 +18,12 @@ namespace MatrixTests
             };
 
             Matrix matrix = new Matrix(elementsForMatrix);
+
             Assert.IsTrue(matrix.Equals(matrix));
         }
 
         [TestMethod]
-        public void Equals_EqualMatrices_IsTrue()
+        public void Equals_EqualMatrices()
         {
             int[,] elementsForMatrix = new int[,]
             {
@@ -31,30 +32,14 @@ namespace MatrixTests
                 {7, 8, 9}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForMatrix);
-            Matrix secondMatrix = new Matrix(elementsForMatrix);
+            Matrix first = new Matrix(elementsForMatrix);
+            Matrix second = new Matrix(elementsForMatrix);
 
-            Assert.IsTrue(firstMatrix.Equals(secondMatrix));
+            Assert.IsTrue(first.Equals(second));
         }
 
         [TestMethod]
-        public void EqualsOperator_EqualMatrices_IsTrue()
-        {
-            int[,] elementsForMatrix = new int[,]
-            {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 9}
-            };
-            
-            Matrix firstMatrix = new Matrix(elementsForMatrix);
-            Matrix secondMatrix = new Matrix(elementsForMatrix);
-
-            Assert.IsTrue(firstMatrix == secondMatrix);
-        }
-
-        [TestMethod]
-        public void Equals_NonEqualMatrices_IsFalse()
+        public void Equals_NonEqualMatrices()
         {
             int[,] elementsForFirstMatrix = new int[,]
             {
@@ -70,37 +55,14 @@ namespace MatrixTests
                 {3, 2, 1}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = new Matrix(elementsForSecondMatrix);
+            Matrix first = new Matrix(elementsForFirstMatrix);
+            Matrix second = new Matrix(elementsForSecondMatrix);
 
-            Assert.IsFalse(firstMatrix.Equals(secondMatrix));
+            Assert.IsFalse(first.Equals(second));
         }
 
         [TestMethod]
-        public void EqualsOperator_NonEqualMatrices_IsTrue()
-        {
-            int[,] elementsForFirstMatrix = new int[,]
-            {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 9}
-            };
-
-            int[,] elementsForSecondMatrix = new int[,]
-            {
-                {9, 8, 7},
-                {6, 5, 4},
-                {3, 2, 1}
-            };
-
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = new Matrix(elementsForSecondMatrix);
-
-            Assert.IsTrue(firstMatrix != secondMatrix);
-        }
-
-        [TestMethod]
-        public void Equals_MatricesWithDifferentRowsNum_IsTrue()
+        public void Equals_MatricesWithDifferentRowsNum()
         {
             int[,] elementsForFirstMatrix = new int[,]
             {
@@ -115,14 +77,14 @@ namespace MatrixTests
                 {0, 0, 0}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = new Matrix(elementsForSecondMatrix);
+            Matrix first = new Matrix(elementsForFirstMatrix);
+            Matrix second = new Matrix(elementsForSecondMatrix);
 
-            Assert.IsTrue(firstMatrix != secondMatrix);
+            Assert.IsFalse(first.Equals(second));
         }
 
         [TestMethod]
-        public void Equals_MatricesWithDifferentColumnsNum_IsTrue()
+        public void Equals_MatricesWithDifferentColumnsNum()
         {
             int[,] elementsForFirstMatrix = new int[,]
             {
@@ -138,14 +100,14 @@ namespace MatrixTests
                 {0, 0}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = new Matrix(elementsForSecondMatrix);
+            Matrix first = new Matrix(elementsForFirstMatrix);
+            Matrix second = new Matrix(elementsForSecondMatrix);
 
-            Assert.IsTrue(firstMatrix != secondMatrix);
+            Assert.IsFalse(first.Equals(second));
         }
 
         [TestMethod]
-        public void Equals_MatricesWithNull_IsTrue()
+        public void Equals_MatricesWithNull()
         {
             int[,] elementsForFirstMatrix = new int[,]
             {
@@ -154,14 +116,14 @@ namespace MatrixTests
                 {0, 0, 0}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = null;
+            Matrix first = new Matrix(elementsForFirstMatrix);
+            Matrix second = null;
 
-            Assert.IsTrue(firstMatrix != secondMatrix);
+            Assert.IsFalse(first.Equals(second));
         }
 
         [TestMethod]
-        public void HashCode_EqualMatrices_AreEqual()
+        public void HashCode_EqualMatrices()
         {
             int[,] elementsForMatrix = new int[,]
             {
@@ -170,14 +132,14 @@ namespace MatrixTests
                 {7, 8, 9}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForMatrix);
-            Matrix secondMatrix = new Matrix(elementsForMatrix);
+            Matrix first = new Matrix(elementsForMatrix);
+            Matrix second = new Matrix(elementsForMatrix);
 
-            Assert.AreEqual(firstMatrix.GetHashCode(), secondMatrix.GetHashCode());
+            Assert.AreEqual(first.GetHashCode(), second.GetHashCode());
         }
 
         [TestMethod]
-        public void HashCode_NonEqualMatrices_AreNotEqual()
+        public void HashCode_NonEqualMatrices()
         {
             int[,] elementsForFirstMatrix = new int[,]
             {
@@ -193,10 +155,10 @@ namespace MatrixTests
                 {3, 2, 1}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = new Matrix(elementsForSecondMatrix);
+            Matrix first = new Matrix(elementsForFirstMatrix);
+            Matrix second = new Matrix(elementsForSecondMatrix);
 
-            Assert.AreNotEqual(firstMatrix.GetHashCode(), secondMatrix.GetHashCode());
+            Assert.AreNotEqual(first.GetHashCode(), second.GetHashCode());
         }
     }
 }

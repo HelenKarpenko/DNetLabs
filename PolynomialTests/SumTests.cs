@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PolynomialLib;
+using System.Collections.Generic;
 
 namespace PolynomialTests
 {
@@ -79,7 +80,7 @@ namespace PolynomialTests
         [TestMethod]
         public void Sum_LeftDegreeIsZero()
         {
-            int[] coefForLeftPol = { };
+            int[] coefForLeftPol = { 0 };
             int[] coefForRightPol = { 1, 1, 1, 1, 1 };
             int[] coefForExpectedPol = { 1, 1, 1, 1, 1 };
 
@@ -95,7 +96,7 @@ namespace PolynomialTests
         public void Sum_RightDegreeIsZero()
         {
             int[] coefForLeftPol = { 1, 1, 1, 1, 1 };
-            int[] coefForRightPol = { };
+            int[] coefForRightPol = { 0 };
             int[] coefForExpectedPol = { 1, 1, 1, 1, 1 };
 
             Polynomial left = new Polynomial(coefForLeftPol);
@@ -109,9 +110,9 @@ namespace PolynomialTests
         [TestMethod]
         public void Sum_RightAndLeftDegreeIsZero()
         {
-            int[] coefForLeftPol = { };
-            int[] coefForRightPol = { };
-            int[] coefForExpectedPol = { };
+            int[] coefForLeftPol = { 0 };
+            int[] coefForRightPol = { 0 };
+            int[] coefForExpectedPol = { 0 };
 
             Polynomial left = new Polynomial(coefForLeftPol);
             Polynomial right = new Polynomial(coefForRightPol);

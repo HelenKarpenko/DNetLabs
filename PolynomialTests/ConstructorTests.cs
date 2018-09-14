@@ -36,16 +36,12 @@ namespace PolynomialTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Array is empty.")]
         public void Constructor_WithEmptyArray()
         {
             int[] array = { };
-            uint expectedDegree = 0 ;
 
             Polynomial result = new Polynomial(array);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Degree, expectedDegree);
-            Assert.AreEqual(result.Coefficients[0], 0);
         }
 
         [TestMethod]
@@ -121,16 +117,12 @@ namespace PolynomialTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Dictionary is empty.")]
         public void Constructor_WithEmptyDictionary()
         {
             Dictionary<uint, int> dictionary = new Dictionary<uint, int>();
-            uint expectedDegree = 0;
 
             Polynomial result = new Polynomial(dictionary);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Degree, expectedDegree);
-            Assert.AreEqual(result.Coefficients[0], 0);
         }
 
         [TestMethod]

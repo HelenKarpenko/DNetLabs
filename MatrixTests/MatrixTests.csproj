@@ -49,11 +49,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloneTests.cs" />
+    <Compile Include="Inspector.cs" />
     <Compile Include="MultiplicationTests.cs" />
     <Compile Include="SubtractionTest.cs" />
     <Compile Include="SumTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EqualsTests.cs" />
+    <Compile Include="ConstructorTests.cs" />
+    <Compile Include="IndexerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

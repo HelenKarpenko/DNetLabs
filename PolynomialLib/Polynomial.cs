@@ -26,9 +26,7 @@ namespace PolynomialLib
                 throw new PolynomialException("These coefficients do not correspond to the polynomial");
 
             if (coefficients.Length == 0)
-            {
-                coefficients = new int[] { 0 };
-            }
+                throw new ArgumentException("Array is empty.");
 
             Coefficients = new Dictionary<uint, int>();
             for (int i = 0; i < coefficients.Length; i++)
@@ -45,13 +43,9 @@ namespace PolynomialLib
                 throw new ArgumentNullException("Сoefficient dictionary is null.");
 
             if (coefficients.Count == 0)
-            {
-                coefficients.Add(0, 0);
-            }
-            else
-            {
-                NormalizeDictionary(coefficients);
-            }
+                throw new ArgumentException("Dictionary is empty.");
+
+            NormalizeDictionary(coefficients);
 
             if (IsIncorrectCoefDictionary(coefficients))
                 throw new PolynomialException("These coefficients do not correspond to the polynomial");
@@ -152,17 +146,19 @@ namespace PolynomialLib
             return new Polynomial(result);
         }
 
-        //public Polynomial IncreaseTheDegree(uint newDegree)
-        //{
-        //    if (newDegree <= Degree) return null;
+        public static Polynomial IncreaseDegree(Polynomial polynomial, uint newDegree)
+        {
+            if (newDegree <= polynomial.Degree) return null;
 
-        //    uint difference = newDegree - Degree;
-        //    int[] coefForIncPol = new int[difference].Select(i => 1).ToArray();
-        //    Polynomial polynomialForIncrease = new Polynomial(coefForIncPol);
+            uint difference = newDegree - polynomial.Degree;
+            Dictionary<uint, int> coefForIncPol = new Dictionary<uint, int>
+            {
+                { difference, 1 }
+            };
+            Polynomial polynomialForIncrease = new Polynomial(coefForIncPol);
 
-        //    return this * polynomialForIncrease;
-        //}
-
+            return polynomial * polynomialForIncrease;
+        }
 
         public override bool Equals(object obj)
         {

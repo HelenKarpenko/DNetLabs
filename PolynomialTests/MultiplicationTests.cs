@@ -79,9 +79,9 @@ namespace PolynomialTests
         [TestMethod]
         public void Multiplication_LeftDegreeIsZero()
         {
-            int[] coefForLeftPol = { };
+            int[] coefForLeftPol = { 0 };
             int[] coefForRightPol = { 1, 1, 1, 1, 1 };
-            int[] coefForExpectedPol = { };
+            int[] coefForExpectedPol = { 0 };
 
             Polynomial left = new Polynomial(coefForLeftPol);
             Polynomial right = new Polynomial(coefForRightPol);
@@ -95,8 +95,8 @@ namespace PolynomialTests
         public void Multiplication_RightDegreeIsZero()
         {
             int[] coefForLeftPol = { 1, 1, 1, 1, 1 };
-            int[] coefForRightPol = { };
-            int[] coefForExpectedPol = { };
+            int[] coefForRightPol = { 0 };
+            int[] coefForExpectedPol = { 0 };
 
             Polynomial left = new Polynomial(coefForLeftPol);
             Polynomial right = new Polynomial(coefForRightPol);
@@ -109,9 +109,9 @@ namespace PolynomialTests
         [TestMethod]
         public void Multiplication_RightAndLeftDegreeIsZero()
         {
-            int[] coefForLeftPol = { };
-            int[] coefForRightPol = { };
-            int[] coefForExpectedPol = { };
+            int[] coefForLeftPol = { 0 };
+            int[] coefForRightPol = { 0 };
+            int[] coefForExpectedPol = { 0 };
 
             Polynomial left = new Polynomial(coefForLeftPol);
             Polynomial right = new Polynomial(coefForRightPol);

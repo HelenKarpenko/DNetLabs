@@ -10,13 +10,13 @@ namespace MatrixTests
         [TestMethod]
         public void Subtraction_MatricesWithTheSameDimension()
         {
-            int[,] elementsForFirstMatrix = new int[,]
+            int[,] elementsForLeftMatrix = new int[,]
             {
                 {1, 2, 3},
                 {4, 5, 6},
                 {7, 8, 9}
             };
-            int[,] elementsForSecondMatrix = new int[,]
+            int[,] elementsForRightMatrix = new int[,]
             {
                 {1, 1, 1},
                 {1, 1, 1},
@@ -29,52 +29,77 @@ namespace MatrixTests
                 {6, 7, 8}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = new Matrix(elementsForSecondMatrix);
-
+            Matrix left = new Matrix(elementsForLeftMatrix);
+            Matrix right = new Matrix(elementsForRightMatrix);
             Matrix expectedMatrix = new Matrix(elementsForExpectedMatrix);
-            Matrix resultMatrix = firstMatrix - secondMatrix;
 
-            Assert.AreEqual(expectedMatrix, resultMatrix);
+            Matrix result = left - right;
+
+            Assert.AreEqual(expectedMatrix, result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MatrixException), "The matrices must be of the same dimension")]
+        [ExpectedException(typeof(MatrixException), "Matrixes have different dimensions.")]
         public void Subtraction_MatricesWithDifferentDimensions()
         {
-
-            int[,] elementsForFirstMatrix = new int[,]
+            int[,] elementsForLeftMatrix = new int[,]
             {
                 {1, 2, 3},
                 {4, 5, 6},
             };
-            int[,] elementsForSecondMatrix = new int[,]
+            int[,] elementsForRightMatrix = new int[,]
             {
                 {1, 1},
                 {1, 1},
                 {1, 1}
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = new Matrix(elementsForSecondMatrix);
+            Matrix left = new Matrix(elementsForLeftMatrix);
+            Matrix right = new Matrix(elementsForRightMatrix);
 
-            Matrix resultMatrix = firstMatrix - secondMatrix;
+            Matrix result = left - right;
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MatrixException), "Matrix is null")]
-        public void Sum_MatrixIsNull()
+        [ExpectedException(typeof(ArgumentNullException), "Matrix must not be null.")]
+        public void Subtraction_MatricesIsNull()
         {
-            int[,] elementsForFirstMatrix = new int[,]
+            Matrix left = null;
+            Matrix right = null;
+
+            Matrix result = right - left;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Matrix must not be null.")]
+        public void Subtraction_LeftIsNull()
+        {
+            int[,] elementsForRightMatrix = new int[,]
             {
                 {1, 2, 3},
                 {4, 5, 6},
             };
 
-            Matrix firstMatrix = new Matrix(elementsForFirstMatrix);
-            Matrix secondMatrix = null;
+            Matrix left = null;
+            Matrix right = new Matrix(elementsForRightMatrix);
 
-            Matrix resultMatrix = secondMatrix - firstMatrix;
+            Matrix result = right - left;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Matrix must not be null.")]
+        public void Subtraction_RightIsNull()
+        {
+            int[,] elementsForLeftMatrix = new int[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6},
+            };
+
+            Matrix left = new Matrix(elementsForLeftMatrix);
+            Matrix right = null;
+
+            Matrix result = right - left;
         }
     }
 }

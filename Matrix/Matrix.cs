@@ -6,39 +6,77 @@ using System.Threading.Tasks;
 
 namespace MatrixLib
 {
-    public class Matrix
+    public class Matrix : ICloneable
     {
-        private static int _defaultDimension = 5;
+        private static uint _defaultDimension = 5;
 
-        public int[,] Elements { get; set; }
+        private int[,] _elements { get; set; }
 
-        public int RowsCount
+        public int this[int i, int j]
         {
             get
             {
-                return Elements.GetLength(0);
+                return _elements[i, j];
+            }
+            set
+            {
+                _elements[i, j] = value;
             }
         }
-        public int ColumnsCount
+
+        public int[] this[int byRow]
         {
             get
             {
-                return Elements.GetLength(1);
+                int[] row = new int[ColumnsCount];
+                for (int i = 0; i < ColumnsCount; i++)
+                {
+                    row[i] = _elements[byRow, i];
+                }
+                return row;
+            }
+
+            set
+            {
+                for (int i = 0; i < ColumnsCount; i++)
+                {
+                    _elements[byRow, i] = value[i];
+                }
             }
         }
 
-        public Matrix(int row, int coll, int value = 0)
+        public uint RowsCount
         {
-            if (row <= 0 || coll <= 0) throw new ArgumentException("Row and coll <= 0");
+            get
+            {
+                return (uint)_elements.GetLength(0);
+            }
+        }
+        public uint ColumnsCount
+        {
+            get
+            {
+                return (uint)_elements.GetLength(1);
+            }
+        }
 
-            Elements = new int[row, coll];
+        public Matrix(uint rowsCount, uint columnsCount, int value = 0)
+        {
+            if (rowsCount == 0)
+                throw new ArgumentException("Rows count must be greater than zero.");
+
+            if (columnsCount == 0)
+                throw new ArgumentException("Columns count must be greater than zero.");
+
+            _elements = new int[rowsCount, columnsCount];
+
             if (value != 0)
             {
-                for (int i = 0; i < row; i++)
+                for (int i = 0; i < rowsCount; i++)
                 {
-                    for (int j = 0; j < coll; j++)
+                    for (int j = 0; j < columnsCount; j++)
                     {
-                        Elements[i, j] = value;
+                        this[i, j] = value;
                     }
                 }
             }
@@ -48,18 +86,29 @@ namespace MatrixLib
 
         public Matrix(int[,] data)
         {
-            Elements = data;
+            if (data == null)
+                throw new ArgumentNullException("data", "Array must not be null.");
+
+            if (data.GetLength(0) == 0)
+                throw new ArgumentException("Rows count must be greater than zero.");
+
+            if (data.GetLength(1) == 0)
+                throw new ArgumentException("Columns count must be greater than zero.");
+
+            _elements = data;
         }
 
         public static Matrix operator +(Matrix left, Matrix right)
         {
-            if (left == null || right == null)
-                throw new MatrixException("Matrix is null");
+            if (left == null)
+                throw new ArgumentNullException("left", "Matrix must not be null.");
+
+            if (right == null)
+                throw new ArgumentNullException("rigth", "Matrix must not be null.");
 
             if (left.RowsCount != right.RowsCount ||
                left.ColumnsCount != right.ColumnsCount)
-                // Matrixes have different dimensions.
-                throw new MatrixException("The matrices must be of the same dimension");
+                throw new MatrixException("Matrixes have different dimensions.");
 
             Matrix result = new Matrix(left.RowsCount, left.ColumnsCount, 0);
 
@@ -67,49 +116,56 @@ namespace MatrixLib
             {
                 for (int j = 0; j < left.ColumnsCount; j++)
                 {
-                    result.Elements[i, j] = left.Elements[i, j] + right.Elements[i, j];
+                    result[i, j] = left[i, j] + right[i, j];
                 }
             }
             return result;
         }
 
-        public static Matrix operator -(Matrix firstMatrix, Matrix secondMatrix)
+        public static Matrix operator -(Matrix left, Matrix right)
         {
-            if (firstMatrix == null || secondMatrix == null)
-                throw new MatrixException("Matrix is null");
+            if (left == null)
+                throw new ArgumentNullException("left", "Matrix must not be null.");
 
-            if (firstMatrix.RowsCount != secondMatrix.RowsCount ||
-              firstMatrix.ColumnsCount != secondMatrix.ColumnsCount)
-                throw new MatrixException("The matrices must be of the same dimension");
+            if (right == null)
+                throw new ArgumentNullException("right", "Matrix must not be null.");
 
-            Matrix result = new Matrix(firstMatrix.RowsCount, secondMatrix.ColumnsCount);
+            if (left.RowsCount != right.RowsCount ||
+              left.ColumnsCount != right.ColumnsCount)
+                throw new MatrixException("Matrixes have different dimensions.");
 
-            for (int i = 0; i < firstMatrix.RowsCount; i++)
+            Matrix result = new Matrix(left.RowsCount, left.ColumnsCount);
+
+            for (int i = 0; i < left.RowsCount; i++)
             {
-                for (int j = 0; j < firstMatrix.ColumnsCount; j++)
+                for (int j = 0; j < left.ColumnsCount; j++)
                 {
-                    result.Elements[i, j] = firstMatrix.Elements[i, j] - secondMatrix.Elements[i, j];
+                    result[i, j] = left[i, j] - right[i, j];
                 }
             }
             return result;
         }
 
-        public static Matrix operator *(Matrix firstMatrix, Matrix secondMatrix)
+        public static Matrix operator *(Matrix left, Matrix right)
         {
-            if (firstMatrix == null || secondMatrix == null)
-                throw new MatrixException("Matrix is null");
-            
-            if (firstMatrix.ColumnsCount != secondMatrix.RowsCount)
+            if (left == null)
+                throw new ArgumentNullException("left", "Matrix must not be null.");
+
+            if (right == null)
+                throw new ArgumentNullException("right", "Matrix must not be null.");
+
+            if (left.ColumnsCount != right.RowsCount)
                 throw new MatrixException("The number of columns of the first matrix must coincide with the number of rows of the second matrix");
 
-            Matrix result = new Matrix(firstMatrix.RowsCount, secondMatrix.ColumnsCount, 0);
-            for (int i = 0; i < firstMatrix.RowsCount; i++)
+            Matrix result = new Matrix(left.RowsCount, right.ColumnsCount, 0);
+
+            for (int i = 0; i < left.RowsCount; i++)
             {
-                for (int j = 0; j < secondMatrix.ColumnsCount; j++)
+                for (int j = 0; j < right.ColumnsCount; j++)
                 {
-                    for (int k = 0; k < firstMatrix.ColumnsCount; k++)
+                    for (int k = 0; k < left.ColumnsCount; k++)
                     {
-                        result.Elements[i, j] += firstMatrix.Elements[i, k] * secondMatrix.Elements[k, j];
+                        result[i, j] += left[i, k] * right[k, j];
                     }
                 }
             }
@@ -119,15 +175,15 @@ namespace MatrixLib
         public static Matrix operator *(Matrix matrix, int value)
         {
             if (matrix == null)
-                throw new ArgumentNullException("matrix", "Matrix must not be null");
+                throw new ArgumentNullException("matrix", "Matrix must not be null.");
 
-            Matrix result = new Matrix(matrix.Elements);
+            Matrix result = (Matrix)matrix.Clone();
 
             for (int i = 0; i < result.RowsCount; i++)
             {
                 for (int j = 0; j < result.ColumnsCount; j++)
                 {
-                    result.Elements[i, j] *= value;
+                    result[i, j] *= value;
                 }
             }
             return result;
@@ -142,7 +198,7 @@ namespace MatrixLib
 
             if (matrix.RowsCount != RowsCount || matrix.ColumnsCount != ColumnsCount)
                 return false;
-            return Elements.Cast<int>().SequenceEqual(matrix.Elements.Cast<int>());
+            return _elements.Cast<int>().SequenceEqual(matrix._elements.Cast<int>());
         }
 
         public override int GetHashCode()
@@ -152,7 +208,7 @@ namespace MatrixLib
             {
                 for (int j = 0; j < ColumnsCount; j++)
                 {
-                    hash = hash * 31 + Elements[i, j];
+                    hash = hash * 31 + this[i, j];
                 }
             }
             return hash;
@@ -161,17 +217,25 @@ namespace MatrixLib
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < RowsCount; i++)
             {
                 sb.Append("{");
+
                 for (int j = 0; j < ColumnsCount; j++)
                 {
-                    sb.AppendFormat(" {0} ", Elements[i,j]);
+                    sb.AppendFormat(" {0} ", this[i,j]);
                 }
+
                 sb.AppendLine("}");
             }
+
             return sb.ToString();
         }
 
+        public object Clone()
+        {
+            return new Matrix((int[,])_elements.Clone());
+        }
     }
 }
