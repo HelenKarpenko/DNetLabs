@@ -22,7 +22,7 @@ namespace PolynomialTests
             Assert.AreEqual(result.Degree, expectedDegree);
             for (uint i = 0; i < array.Length; i++)
             {
-                Assert.AreEqual(result.Coefficients[i], array[i]);
+                Assert.AreEqual(result._coefficients[i], array[i]);
             }
         }
 
@@ -54,7 +54,7 @@ namespace PolynomialTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
-            Assert.AreEqual(result.Coefficients[0], 0);
+            Assert.AreEqual(result._coefficients[0], 0);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace PolynomialTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
-            Assert.AreEqual(result.Coefficients[0], 0);
+            Assert.AreEqual(result._coefficients[0], 0);
         }
 
         #endregion
@@ -103,7 +103,7 @@ namespace PolynomialTests
 
             foreach (uint key in dictionary.Keys)
             {
-                Assert.AreEqual(result.Coefficients[key], dictionary[key]);
+                Assert.AreEqual(result._coefficients[key], dictionary[key]);
             }
         }
 
@@ -149,7 +149,7 @@ namespace PolynomialTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
-            Assert.AreEqual(result.Coefficients[0], 0);
+            Assert.AreEqual(result._coefficients[0], 0);
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace PolynomialTests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Degree, expectedDegree);
-            Assert.AreEqual(result.Coefficients[0], 0);
+            Assert.AreEqual(result._coefficients[0], 0);
         }
 
         #endregion

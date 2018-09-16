@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MatrixLib
 {
+    [DataContract]
+    [Serializable]
     public class Matrix : ICloneable
     {
         private static uint _defaultDimension = 5;
 
+        [DataMember]
         private int[,] _elements { get; set; }
 
         public int this[int i, int j]
@@ -44,7 +46,6 @@ namespace MatrixLib
                 }
             }
         }
-
         public uint RowsCount
         {
             get

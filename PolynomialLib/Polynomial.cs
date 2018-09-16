@@ -8,12 +8,25 @@ namespace PolynomialLib
 {
     public class Polynomial : ICloneable
     {
-        public Dictionary<uint, int> Coefficients { get; set; }
+        public Dictionary<uint, int> _coefficients { get; set; }
+
+        public int this[uint i]
+        {
+            get
+            {
+                return _coefficients[i];
+            }
+            set
+            {
+                _coefficients[i] = value;
+            }
+        }
+
         public uint Degree
         {
             get
             {
-                return Coefficients.Keys.Max();
+                return _coefficients.Keys.Max();
             }
         }
 
@@ -22,19 +35,19 @@ namespace PolynomialLib
             if (coefficients == null)
                 throw new ArgumentNullException("Сoefficient array is null.");
 
-            if (IsIncorrectCoefArray(coefficients))
+            if (IsIncorrectCoef(coefficients))
                 throw new PolynomialException("These coefficients do not correspond to the polynomial");
 
             if (coefficients.Length == 0)
                 throw new ArgumentException("Array is empty.");
 
-            Coefficients = new Dictionary<uint, int>();
+            _coefficients = new Dictionary<uint, int>();
             for (int i = 0; i < coefficients.Length; i++)
             {
-                Coefficients.Add((uint)i, coefficients[i]);
+                _coefficients.Add((uint)i, coefficients[i]);
             }
 
-            NormalizeDictionary(Coefficients);
+            NormalizeDictionary(_coefficients);
         }
 
         public Polynomial(Dictionary<uint, int> coefficients)
@@ -47,20 +60,20 @@ namespace PolynomialLib
 
             NormalizeDictionary(coefficients);
 
-            if (IsIncorrectCoefDictionary(coefficients))
+            if (IsIncorrectCoef(coefficients))
                 throw new PolynomialException("These coefficients do not correspond to the polynomial");
 
-            Coefficients = coefficients;
+            _coefficients = coefficients;
         }
 
-        public static bool IsIncorrectCoefDictionary(Dictionary<uint, int> polynomial)
-        {
-            return polynomial.Keys.Max() == 0 && polynomial[0] != 0;
-        }
-
-        public static bool IsIncorrectCoefArray(int[] polynomial)
+        private static bool IsIncorrectCoef(int[] polynomial)
         {
             return polynomial.Length == 1 && polynomial[0] != 0;
+        }
+
+        private static bool IsIncorrectCoef(Dictionary<uint, int> polynomial)
+        {
+            return polynomial.Keys.Max() == 0 && polynomial[0] != 0;
         }
 
         public static Polynomial operator +(Polynomial left, Polynomial right)
@@ -73,19 +86,19 @@ namespace PolynomialLib
 
             Polynomial result = (Polynomial)left.Clone();
 
-            foreach (uint key in right.Coefficients.Keys)
+            foreach (uint key in right._coefficients.Keys)
             {
-                if (!left.Coefficients.ContainsKey(key))
+                if (!left._coefficients.ContainsKey(key))
                 {
-                    result.Coefficients.Add(key, right.Coefficients[key]);
+                    result._coefficients.Add(key, right._coefficients[key]);
                 }
                 else
                 {
-                    result.Coefficients[key] += right.Coefficients[key]; 
+                    result._coefficients[key] += right._coefficients[key]; 
                 }
             }
 
-            NormalizeDictionary(result.Coefficients);
+            NormalizeDictionary(result._coefficients);
 
             return result;
         }
@@ -100,19 +113,19 @@ namespace PolynomialLib
 
             Polynomial result = (Polynomial)left.Clone();
 
-            foreach (uint key in right.Coefficients.Keys)
+            foreach (uint key in right._coefficients.Keys)
             {
-                if (!left.Coefficients.ContainsKey(key))
+                if (!left._coefficients.ContainsKey(key))
                 {
-                    result.Coefficients.Add(key, right.Coefficients[key] * (-1));
+                    result._coefficients.Add(key, right._coefficients[key] * (-1));
                 }
                 else
                 {
-                    result.Coefficients[key] -= right.Coefficients[key];
+                    result._coefficients[key] -= right._coefficients[key];
                 }
             }
 
-            NormalizeDictionary(result.Coefficients);
+            NormalizeDictionary(result._coefficients);
 
             return result;
         }
@@ -127,18 +140,18 @@ namespace PolynomialLib
 
             Dictionary<uint, int> result = new Dictionary<uint, int>();
 
-            foreach (uint leftKey in left.Coefficients.Keys)
+            foreach (uint leftKey in left._coefficients.Keys)
             {
-                foreach (uint rightKey in right.Coefficients.Keys)
+                foreach (uint rightKey in right._coefficients.Keys)
                 {
                     uint degree = leftKey + rightKey;
                     if (!result.ContainsKey(degree))
                     {
-                        result.Add(degree, left.Coefficients[leftKey] * right.Coefficients[rightKey]);
+                        result.Add(degree, left._coefficients[leftKey] * right._coefficients[rightKey]);
                     }
                     else
                     {
-                        result[degree] += left.Coefficients[leftKey] * right.Coefficients[rightKey];
+                        result[degree] += left._coefficients[leftKey] * right._coefficients[rightKey];
                     }
                 }
             }
@@ -170,16 +183,16 @@ namespace PolynomialLib
             if (Degree != polynomial.Degree)
                 return false;
 
-            return Coefficients.SequenceEqual(polynomial.Coefficients);
+            return _coefficients.SequenceEqual(polynomial._coefficients);
         }
 
         public override int GetHashCode()
         {
             int hash = 27;
 
-            foreach (uint key in Coefficients.Keys)
+            foreach (uint key in _coefficients.Keys)
             {
-                hash = hash * 31 + Coefficients[key];
+                hash = hash * 31 + _coefficients[key];
             }
 
             return hash;
@@ -187,7 +200,7 @@ namespace PolynomialLib
 
         public override string ToString()
         {
-            if (Degree == 0 && Coefficients[0] == 0)
+            if (Degree == 0 && _coefficients[0] == 0)
             {
                 return "0 = 0";
             }
@@ -196,22 +209,22 @@ namespace PolynomialLib
 
             for (int i = (int)Degree; i >= 0; i--)
             {
-                if (Coefficients.ContainsKey((uint)i))
+                if (_coefficients.ContainsKey((uint)i))
                 {
                     if (i != Degree)
                     {
                         str.Append(" + ");
                     }
 
-                    if (Coefficients[(uint)i] != 0)
+                    if (_coefficients[(uint)i] != 0)
                     {
-                        if (Coefficients[(uint)i] != 1)
+                        if (_coefficients[(uint)i] != 1)
                         {
-                            str.AppendFormat("{0}", Coefficients[(uint)i]);
+                            str.AppendFormat("{0}", _coefficients[(uint)i]);
                         }
                         else if (i == 0)
                         {
-                            str.AppendFormat("{0}", Coefficients[(uint)i]);
+                            str.AppendFormat("{0}", _coefficients[(uint)i]);
                         }
 
                         if (i != 0)
@@ -231,7 +244,7 @@ namespace PolynomialLib
            
         public object Clone()
         {
-            return new Polynomial(Coefficients.ToDictionary(entry => entry.Key,
+            return new Polynomial(_coefficients.ToDictionary(entry => entry.Key,
                                                entry => entry.Value));
         }
 
